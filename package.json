@@ -1,0 +1,29 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node src/server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mali2602/analyshare.git"
+  },
+  "keywords": [
+    "analysis"
+  ],
+  "author": "Maha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mali2602/analyshare/issues"
+  },
+  "homepage": "https://github.com/mali2602/analyshare#readme",
+  "dependencies": {
+    "express": "4.14.0",
+    "request": "2.60.0",
+    "promise": "7.1.1",
+    "body-parser": "1.15.2"
+  }
+}
