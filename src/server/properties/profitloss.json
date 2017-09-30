@@ -1,0 +1,28 @@
+{
+    "revenues": {
+        "total": "totalrevenue",
+        "components": ["totaloperatingrevenues", "otherincome"]
+    },
+    "expenses": {
+        "total": "totalexpenses",
+        "components": [
+            "costofmaterialsconsumed",
+            "purchaseofstockintrade",
+            "changesininventoriesoffgwipandstockintrade",
+            "employeebenefitexpenses",
+            "depreciationandamortisationexpenses",
+            "financecosts",
+            "otherexpenses",
+            "operatinganddirectexpenses"
+        ]
+    },
+    "profitlossbeforeexceptionalextraordinaryitemsandtax": "profitlossbeforeexceptionalextraordinaryitemsandtax",
+    "exceptionalitems": "exceptionalitems",
+    "profitlossbeforetax": "profitlossbeforetax",
+    "currenttax": "currenttax",
+    "deferredtax": "deferredtax",
+    "totaltaxexpenses": "totaltaxexpenses",
+    "basicepsrs":"basicepsrs",
+    "dilutedepsrs":"dilutedepsrs",
+    "equitysharedividend":"equitysharedividend"
+}

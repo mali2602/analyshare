@@ -1,0 +1,29 @@
+{
+    "shareholdersfunds": {
+        "total": "totalshareholdersfunds",
+        "components": ["totalsharecapital", "totalreservesandsurplus"]
+    },
+    "shareapplicationmoneypendingallotment": "shareapplicationmoneypendingallotment",
+    "noncurrentliabilities": {
+        "total": "totalnoncurrentliabilities",
+        "components": ["longtermborrowings", "deferredtaxliabilitiesnet", "otherlongtermliabilities", "longtermprovisions"]
+    },
+    "currentliabilities": {
+        "total": "totalcurrentliabilities",
+        "components": ["shorttermborrowings", "tradepayables", "othercurrentliabilities", "shorttermprovisions"]
+    },
+    "noncurrentassets": {
+        "total": "totalnoncurrentassets",
+        "components": [{
+                "name": "fixedassets",
+                "total": "fixedassets",
+                "components": ["tangibleassets", "intangibleassets", "capitalworkinprogress", "intangibleassetsunderdevelopment"]
+            },
+            "noncurrentinvestments", "deferredtaxassetsnet", "longtermloansandadvances", "othernoncurrentassets"
+        ]
+    },
+    "currentassets": {
+        "total": "totalcurrentassets",
+        "components": ["currentinvestments", "inventories", "tradereceivables", "cashandcashequivalents", "shorttermloansandadvances", "othercurrentassets"]
+    }
+}
