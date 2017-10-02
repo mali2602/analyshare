@@ -3,5 +3,6 @@
     "cashfrominvestingactivity": "cashfrominvestingactivity",
     "cashfromfinancingactivity": "cashfromfinancingactivity",
     "netcashflow": "netcashflow",
-    "fixedassetspurchased": "fixedassetspurchased"
+    "fixedassetspurchased": "fixedassetspurchased",
+    "fcf": "fcf"
 }

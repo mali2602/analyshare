@@ -78,6 +78,14 @@ module.exports.getCF = function(code, sessionid) {
                     cfdetails.forEach((cf) => {
                         cashflow.data[util.extractAplphaNumeric(cf[0])] = util.sortByYear(cf[1])
                     });
+                    cashflow.data.fcf = [];
+                    cashflow.data.cashfromoperatingactivity.forEach((cost, index) => {
+                        purchaseCost = cashflow.data.fixedassetspurchased[index];
+                        if (purchaseCost !== undefined) {
+                            const fcf = (cost - purchaseCost).toFixed(2);
+                            cashflow.data.fcf.push(fcf);
+                        }
+                    });
                 }
                 cashflow.data = datagrouper.groupIntoObject(cashflow.data, conf.cfData);
                 return cashflow;

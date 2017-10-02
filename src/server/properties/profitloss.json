@@ -24,5 +24,6 @@
     "totaltaxexpenses": "totaltaxexpenses",
     "basicepsrs":"basicepsrs",
     "dilutedepsrs":"dilutedepsrs",
+    "profitlossfortheperiod": "profitlossfortheperiod",
     "equitysharedividend":"equitysharedividend"
 }

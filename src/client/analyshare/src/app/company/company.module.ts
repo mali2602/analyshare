@@ -6,6 +6,7 @@ import { InfoModule } from './info/info.module';
 import { BalanceSheetModule } from './balancesheet/balancesheet.module';
 import { CashflowModule } from './cashflow/cashflow.module';
 import { DisplayModule } from './display/display.module';
+import { ProfitlossModule } from './profitloss/profitloss.module';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { DisplayModule } from './display/display.module';
         DisplayModule,
         InfoModule,
         BalanceSheetModule,
-        CashflowModule
+        CashflowModule,
+        ProfitlossModule
     ],
     declarations: [
         CompanyComponent
