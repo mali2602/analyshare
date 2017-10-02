@@ -20,6 +20,9 @@ const getDetails = (code) => {
             request(url, function(error, response) {
                 if (!error) {
                     const data = JSON.parse(response.body);
+                    const n = (data.warehouse_set.market_capitalization / data.warehouse_set.current_price * 10000000)
+                        .toFixed();
+                    data.warehouse_set.no_of_shares = n;
                     cache.set(cacheKey, data);
                     resolve(data);
                 } else {

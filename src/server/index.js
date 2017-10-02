@@ -35,7 +35,6 @@ router.get('/data/:code', function(req, res){
     dataService.getDetails(req.params.code).then(data => {
         const warehouse = data.warehouse_set;
         const trimmedData = Object.assign({}, data.warehouse_set, {
-            no_of_shares: warehouse.market_capitalization/warehouse.current_price * 10000000,
             id: data.id,
             name: data.name,
             bse_code: data.bse_code,
