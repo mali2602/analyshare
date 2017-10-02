@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var cors = require('cors')
 
 const config = require('./util/config.js').config;
 const readBalanceSheet = require('./datareader/bsreader.js').readBalanceSheet;
@@ -12,6 +13,7 @@ var port = config.port;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 router.get('/balancesheet/:code', function(req, res){
     readBalanceSheet(req.params.code).then(data => res.send(data));
@@ -30,11 +32,22 @@ router.get('/cashflow/:code', function(req, res){
 });
 
 router.get('/data/:code', function(req, res){
-    dataService.getDetails(req.params.code).then(data => res.send(data));
+    dataService.getDetails(req.params.code).then(data => {
+        const warehouse = data.warehouse_set;
+        const trimmedData = Object.assign({}, data.warehouse_set, {
+            no_of_shares: warehouse.market_capitalization/warehouse.current_price * 10000000,
+            id: data.id,
+            name: data.name,
+            bse_code: data.bse_code,
+            short_name: data.short_name,
+            nse_code: data.nse_code
+        });
+        res.send(trimmedData);
+    });
 });
 
 app.use('/api', router);
-app.use('/client', express.static(config.clientPath));
+// app.use('/client', express.static(config.clientPath));
 
 app.listen(port, function(){
     console.log("Listening on port", port, "..........");

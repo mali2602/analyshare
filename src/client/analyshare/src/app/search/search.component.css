@@ -1,0 +1,12 @@
+.form-group {
+    width: 50%
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border: 1px solid #42A948;
+}
+
+.ng-invalid:not(form) {
+    border: 1px solid #a94442;
+}

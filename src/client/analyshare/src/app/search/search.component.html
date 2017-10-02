@@ -1,0 +1,19 @@
+<h1>Search company</h1>
+<form #searchForm="ngForm" (ngSubmit)="submit()">
+    <div class="form-group">
+        <label for="name">MC Code</label>
+        <input type="text" class="form-control" placeholder="Search eg. angular" required [(ngModel)]="model.mccode" name="mccode" #name="ngModel"
+        />
+    </div>
+    <div class="form-group">
+        <label for="name">Stock Code</label>
+        <input type="text" class="form-control" placeholder="Stock code" required [(ngModel)]="model.stockcode" name="stockcode" #name="ngModel"
+        />
+    </div>
+    <div class="form-group">
+        <label for="name">Sessionid</label>
+        <input type="text" class="form-control" placeholder="Sessionid" [(ngModel)]="model.sessionid" name="sessionid" #name="ngModel"
+        />
+    </div>
+    <button class="btn btn-success" type="submit" [disabled]="!searchForm.form.valid">Search</button>
+</form>

@@ -74,9 +74,11 @@ module.exports.getCF = function(code, sessionid) {
             });
             return getInvestingActivity(data.warehouse_set.id, sessionid)
             .then((cfdetails) => {
-                cfdetails.forEach((cf) => {
-                    cashflow.data[util.extractAplphaNumeric(cf[0])] = util.sortByYear(cf[1])
-                });
+                if (cfdetails && Array.isArray(cfdetails)) {
+                    cfdetails.forEach((cf) => {
+                        cashflow.data[util.extractAplphaNumeric(cf[0])] = util.sortByYear(cf[1])
+                    });
+                }
                 cashflow.data = datagrouper.groupIntoObject(cashflow.data, conf.cfData);
                 return cashflow;
             })
