@@ -56,3 +56,5 @@ module.exports.sortByYear = (data) => {
     });
     return sortedValues;
 };
+
+module.exports.average = arr => arr.reduce( ( a, b ) => a + b, 0 ) / arr.length;

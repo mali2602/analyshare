@@ -9,6 +9,7 @@ const readBalanceSheet = require('./datareader/bsreader.js').readBalanceSheet;
 const readProfitLoss = require('./datareader/plreader.js').readProfitLoss;
 const readCashFlow = require('./datareader/cfreader.js').readCashFlow;
 const dataService = require('./service/dataService.js');
+const dcfCalculator = require('./service/dcfCalculator.js');
 var port = config.port;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +30,14 @@ router.get('/cashflow/deprecated/:code', function(req, res){
 
 router.get('/cashflow/:code', function(req, res){
     dataService.getCF(req.params.code, req.query.sessionid).then(data => res.send(data));
+});
+
+router.get('/valuations/:code', function(req, res){
+    dcfCalculator.calculateDcf({
+        code: req.params.code,
+        mccode: req.query.mccode,
+        sessionid: req.query.sessionid
+    }).then(data => res.send(data));
 });
 
 router.get('/data/:code', function(req, res){

@@ -3,6 +3,8 @@ const util = require('./../util/util.js');
 const cache = require('./cache-service.js');
 const conf = require('./../util/config.js');
 const datagrouper = require('../datareader/datagrouper.js');
+const readBalanceSheet = require('../datareader/bsreader.js').readBalanceSheet;
+const readProfitLoss = require('../datareader/plreader.js').readProfitLoss;
 
 function getYears(data) {
     data.splice(0, 1);
@@ -60,9 +62,7 @@ const getInvestingActivity = (id, sessionid) => {
     });
 };
 
-module.exports.getDetails = getDetails;
-
-module.exports.getCF = function(code, sessionid) {
+const getCF = (code, sessionid) => {
     return getDetails(code)
         .then(data => {
             const years = util.getYearsSorted(data.number_set.cashflow[0][1]);
@@ -86,7 +86,7 @@ module.exports.getCF = function(code, sessionid) {
                         purchaseCost = cashflow.data.fixedassetspurchased[index];
                         if (purchaseCost !== undefined) {
                             const fcf = (cost - purchaseCost).toFixed(2);
-                            cashflow.data.fcf.push(fcf);
+                            cashflow.data.fcf.push(Number.parseInt(fcf));
                         }
                     });
                 }
@@ -99,4 +99,22 @@ module.exports.getCF = function(code, sessionid) {
             });
         })
         .catch(e => console.error('errrrrr', e));
+};
+
+module.exports.getDetails = getDetails;
+module.exports.getCF = getCF;
+module.exports.getAll = (params) => {
+    return Promise.all([
+        getDetails(params.code),
+        getCF(params.code, params.sessionid),
+        readBalanceSheet(params.mccode),
+        readProfitLoss(params.mccode)
+    ]).then(values => {
+        return {
+            details: values[0],
+            cf: values[1],
+            bs: values[2],
+            pl: values[3]
+        }
+    });
 };
