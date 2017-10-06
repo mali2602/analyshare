@@ -49,8 +49,8 @@ const calculateFutureCashflows = (options) => {
 const calculateDcf = (data) => {
     const options = getOptions(data);
     const fcfs = calculateFutureCashflows(options);
-    const lastFcf = fcfs[fcfs.length -1];
-    const terminalYear = lastFcf * (1 + options.terminalGrowthRate);
+    const lastFcf = fcfs[fcfs.length - 1];
+    const terminalYear = lastFcf.fcf * (1 + options.terminalGrowthRate);
     const totalPV = fcfs.reduce((acc, fcf) => acc + fcf.pv, 0);
     const terminalValue = (terminalYear / (options.discountRate - options.terminalGrowthRate)) / Math.pow (1 + options.discountRate, options.growthRates.min);
     const totalCF = totalPV + terminalValue;

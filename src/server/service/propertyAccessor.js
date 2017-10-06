@@ -7,7 +7,7 @@ const propertyKeys = {
     long_term_borrowing: 'bs.data[${index}].currentliabilities.shorttermborrowings',
     cashandcashequivalents: 'bs.data[${index}].currentassets.cashandcashequivalents',
     currentinvestments: 'bs.data[${index}].currentassets.currentinvestments',
-    no_of_shares: 'details.no_of_shares'
+    no_of_shares: 'details.warehouse_set.no_of_shares'
 };
 
 const getProperty = (object, key, index) => {
