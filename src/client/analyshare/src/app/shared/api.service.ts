@@ -16,22 +16,26 @@ export class ApiService {
     private getUrl(path) {
         return `${this.basePath}/${path}`;
     }
+    getParams() {
+        const details = this.sharedService.getSearchDetails();
+        const params = new HttpParams().set('sessionid', details.sessionid)
+            .set('mccode', details.mccode);
+        return { params };
+    }
     getCompanyInfo() {
         const details = this.sharedService.getSearchDetails();
-        const params = new HttpParams().set('sessionid', details.sessionid);
-        return this.http.get(this.getUrl(`data/${details.stockcode}`), {params});
+        return this.http.get(this.getUrl(`data/${details.stockcode}`), this.getParams());
     }
     getCashflow() {
         const details = this.sharedService.getSearchDetails();
-        const params = new HttpParams().set('sessionid', details.sessionid);
-        return this.http.get(this.getUrl(`cashflow/${details.stockcode}`), {params});
+        return this.http.get(this.getUrl(`cashflow/${details.stockcode}`), this.getParams());
     }
     getBalanceSheet() {
         const details = this.sharedService.getSearchDetails();
-        return this.http.get(this.getUrl(`balancesheet/${details.mccode}`));
+        return this.http.get(this.getUrl(`balancesheet/${details.mccode}`), this.getParams());
     }
     getProfitLoss() {
         const details = this.sharedService.getSearchDetails();
-        return this.http.get(this.getUrl(`profitloss/${details.mccode}`));
+        return this.http.get(this.getUrl(`profitloss/${details.mccode}`), this.getParams());
     }
 }

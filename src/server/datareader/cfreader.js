@@ -8,8 +8,9 @@ const datagrouper = require('./datagrouper.js');
 const util = require('./../util/util.js');
 const cfGroup = conf.cfDataMC;
 
-function readCashFlow(code, start, end) {
-    var url = util.formUrl(code, 'cashflow_VI', start, end);
+function readCashFlow(params) {
+    const code = params.mccode;
+    var url = util.formUrl(code, 'cashflow_VI', params.start, params.end);
     return datareader(url).then((data) => {
         return {
             years: data.years,

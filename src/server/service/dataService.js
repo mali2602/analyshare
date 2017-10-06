@@ -5,37 +5,60 @@ const conf = require('./../util/config.js');
 const datagrouper = require('../datareader/datagrouper.js');
 const readBalanceSheet = require('../datareader/bsreader.js').readBalanceSheet;
 const readProfitLoss = require('../datareader/plreader.js').readProfitLoss;
+const investingFileName = 'investing-activity.json';
+const fileDataSource = require('./fileDataSource.js');
 
-function getYears(data) {
+const getYears = (data) => {
     data.splice(0, 1);
     return data.map(entry => 2000 + parseInt(entry.replace('Mar', '').trim()));
 }
+const getDate = () => {
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1;
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return year + "-" + month + "-" + day;
+}
 
 const getDetails = (code) => {
+    const fileName = `details-${getDate()}.json`;
     const url = util.getScreenerUrl(code);
     return new Promise((resolve, reject) => {
         const cacheKey = "comp-data-" + code;
         if (cache.get(cacheKey)) {
-            console.log('Resolving data from cache');
+            console.log('Resolving details from cache');
             resolve(cache.get(cacheKey));
         } else {
-            request(url, function(error, response) {
-                if (!error) {
-                    const data = JSON.parse(response.body);
-                    const n = (data.warehouse_set.market_capitalization / data.warehouse_set.current_price * 10000000)
-                        .toFixed();
-                    data.warehouse_set.no_of_shares = n;
-                    cache.set(cacheKey, data);
-                    resolve(data);
-                } else {
-                    reject(error)
-                }
-            });
+            let fileContents = null;
+            try {
+                fileContents = fileDataSource.readJSONFile(code, fileName);
+            } catch(e) {
+                console.log(`No file contents for ${code}/${fileName}`);
+            }
+            if (fileContents) {
+                console.log(`Resolved Details from ${code}/${fileName}`);
+                cache.set(cacheKey, fileContents);
+                return resolve(fileContents);
+            } else {
+                request(url, function(error, response) {
+                    if (!error) {
+                        const data = JSON.parse(response.body);
+                        const n = (data.warehouse_set.market_capitalization / data.warehouse_set.current_price * 10000000)
+                            .toFixed();
+                        data.warehouse_set.no_of_shares = n;
+                        fileDataSource.writeJSONToFile(code, fileName, data);
+                        cache.set(cacheKey, data);
+                        resolve(data);
+                    } else {
+                        reject(error)
+                    }
+                });
+            }
         }
     });
 };
 
-const getInvestingActivity = (id, sessionid) => {
+const getInvestingActivity = (id, sessionid, code) => {
     const url = util.getScreenerCFUrl(id);
     const options = {
         url,
@@ -46,23 +69,38 @@ const getInvestingActivity = (id, sessionid) => {
     return new Promise((resolve, reject) => {
         const cacheKey = "comp-data-cf-" + id;
         if (cache.get(cacheKey)) {
-            console.log('Resolving data from cache');
+            console.log('Resolving InvestingActivity from cache');
             resolve(cache.get(cacheKey));
         } else {
-            request(options, function(error, response) {
-                if (!error) {
-                    const data = JSON.parse(response.body);
-                    cache.set(cacheKey, data);
-                    resolve(data);
-                } else {
-                    reject(error)
-                }
-            });
+            let fileContents = null;
+            try {
+                fileContents = fileDataSource.readJSONFile(code, investingFileName);
+            } catch(e) {
+                console.log(`No file contents for ${code}/${investingFileName}`);
+            }
+            if (fileContents) {
+                console.log(`Resolved IA from ${code}/${investingFileName}`);
+                cache.set(cacheKey, fileContents);
+                return resolve(fileContents);
+            } else {
+                request(options, function(error, response) {
+                    if (!error) {
+                        const data = JSON.parse(response.body);
+                        cache.set(cacheKey, data);
+                        fileDataSource.writeJSONToFile(code, investingFileName, data);
+                        resolve(data);
+                    } else {
+                        reject(error)
+                    }
+                });
+            }
         }
     });
 };
 
-const getCF = (code, sessionid) => {
+const getCF = (params) => {
+    const code = params.code;
+    const sessionid = params.sessionid;
     return getDetails(code)
         .then(data => {
             const years = util.getYearsSorted(data.number_set.cashflow[0][1]);
@@ -75,7 +113,7 @@ const getCF = (code, sessionid) => {
             data.number_set.cashflow.forEach((cf) => {
                 cashflow.data[util.extractAplphaNumeric(cf[0])] = util.sortByYear(cf[1])
             });
-            return getInvestingActivity(data.warehouse_set.id, sessionid)
+            return getInvestingActivity(data.warehouse_set.id, sessionid, code)
             .then((cfdetails) => {
                 if (cfdetails && Array.isArray(cfdetails)) {
                     cfdetails.forEach((cf) => {
@@ -106,9 +144,9 @@ module.exports.getCF = getCF;
 module.exports.getAll = (params) => {
     return Promise.all([
         getDetails(params.code),
-        getCF(params.code, params.sessionid),
-        readBalanceSheet(params.mccode),
-        readProfitLoss(params.mccode)
+        getCF(params),
+        readBalanceSheet(params),
+        readProfitLoss(params)
     ]).then(values => {
         return {
             details: values[0],

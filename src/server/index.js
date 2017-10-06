@@ -16,28 +16,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+const getParams = (req) => ({
+    code: req.params.code,
+    mccode: req.query.mccode,
+    sessionid: req.query.sessionid
+});
+
 router.get('/balancesheet/:code', function(req, res){
-    readBalanceSheet(req.params.code).then(data => res.send(data));
+    readBalanceSheet(getParams(req)).then(data => res.send(data));
 });
 
 router.get('/profitloss/:code', function(req, res){
-    readProfitLoss(req.params.code).then(data => res.send(data));
+    readProfitLoss(getParams(req)).then(data => res.send(data));
 });
 
 router.get('/cashflow/deprecated/:code', function(req, res){
-    readCashFlow(req.params.code).then(data => res.send(data));
+    readCashFlow(getParams(req)).then(data => res.send(data));
 });
 
 router.get('/cashflow/:code', function(req, res){
-    dataService.getCF(req.params.code, req.query.sessionid).then(data => res.send(data));
+    dataService.getCF(getParams(req)).then(data => res.send(data));
 });
 
 router.get('/valuations/:code', function(req, res){
-    dcfCalculator.calculateDcf({
-        code: req.params.code,
-        mccode: req.query.mccode,
-        sessionid: req.query.sessionid
-    }).then(data => res.send(data));
+    dcfCalculator.calculateDcf(getParams(req)).then(data => res.send(data));
 });
 
 router.get('/data/:code', function(req, res){
