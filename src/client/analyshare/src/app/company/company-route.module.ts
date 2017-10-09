@@ -7,6 +7,7 @@ import { InfoComponent } from './info/info.component';
 import { CashflowComponent } from './cashflow/cashflow.component';
 import { BalanceSheetComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { ValuationsComponent } from './valuations/valuations.component';
 
 const routes: Routes = [
     {
@@ -29,6 +30,10 @@ const routes: Routes = [
             {
                 path: 'profitloss',
                 component: ProfitlossComponent
+            },
+            {
+                path: 'valuations',
+                component: ValuationsComponent
             }
         ]
     }

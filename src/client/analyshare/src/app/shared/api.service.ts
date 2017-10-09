@@ -38,4 +38,8 @@ export class ApiService {
         const details = this.sharedService.getSearchDetails();
         return this.http.get(this.getUrl(`profitloss/${details.mccode}`), this.getParams());
     }
+    getValuations() {
+        const details = this.sharedService.getSearchDetails();
+        return this.http.get(this.getUrl(`valuations/${details.mccode}`), this.getParams());
+    }
 }

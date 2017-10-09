@@ -1,19 +1,19 @@
 <div class="panel panel-info">
     <div class="panel-heading">{{details.name}} Details</div>
     <div class="panel-body">
-        <table class="table table-bordered">
-            <tr>
-                <td class="text-right">Current Price</td>
-                <td class="highlight">{{details.current_price}}</td>
-            </tr>
-            <tr>
-                <td class="text-right">Market Capitalization</td>
-                <td class="highlight">{{details.market_capitalization}}</td>
-            </tr>
-            <tr>
-                <td class="text-right">No of Outstanding shares</td>
-                <td class="highlight">{{details.no_of_shares}}</td>
-            </tr>
-        </table>
+            <div class="container">
+            <div class="row">
+                <div class="col-md-3">Current Price</div>
+                <div class="col-md-3">{{details.current_price}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Market Capitalization</div>
+                <div class="col-md-3">{{details.market_capitalization}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">No of Outstanding shares</div>
+                <div class="col-md-3">{{details.no_of_shares}}</div>
+            </div>
+        </div>
     </div>
 </div>

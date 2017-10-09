@@ -1,0 +1,69 @@
+<div class="panel panel-info">
+    <div class="panel-heading">Valuations</div>
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">Average DCF</div>
+                <div class="col-md-6">{{valuations.avgDcf}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Discount Rate</div>
+                <div class="col-md-6">{{valuations.discountRate}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Terminal Growth rate</div>
+                <div class="col-md-6">{{valuations.terminalGrowthRate}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">FCF for next 1 - 5 years</div>
+                <div class="col-md-6">{{valuations.growthRates.max}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">FCF for next 5 - 10 years</div>
+                <div class="col-md-6">{{valuations.growthRates.min}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Shares outstanding</div>
+                <div class="col-md-6">{{valuations.noOfShares}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Outstanding Debt</div>
+                <div class="col-md-6">{{valuations.netDebt | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                    <div class="col-md-3">Future Projections</div>
+                    <div class="col-md-6"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Year</div>
+                <div class="col-md-3">FCF</div>
+                <div class="col-md-3">Present Value</div>
+            </div>
+            <div class="row" *ngFor="let fcf of valuations.fcfs; let i = index">
+                <div class="col-md-3">{{i + 1}}</div>
+                <div class="col-md-3">{{fcf.fcf | number:'1.2-2'}}</div>
+                <div class="col-md-3">{{fcf.pv | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Terminal Year Value</div>
+                <div class="col-md-6">{{valuations.terminalYear | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Sum of all Present values</div>
+                <div class="col-md-6">{{valuations.totalPV | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Terminal Value</div>
+                <div class="col-md-6">{{valuations.terminalValue | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Total Cash flows</div>
+                <div class="col-md-6">{{valuations.totalCF | number:'1.2-2'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><h1><small>Final DCF</small></h1></div>
+                <div class="col-md-6"><h1><small>{{valuations.dcfValue | number:'1.2-2'}}</small></h1></div>
+            </div>
+        </div>
+    </div>
+</div>
