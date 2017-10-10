@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../../shared/api.service';
+import { DcfService } from '../../shared/dcf.service';
 
 @Component({
     selector: 'as-valuations',
@@ -9,8 +10,9 @@ import { ApiService } from '../../shared/api.service';
 })
 export class ValuationsComponent implements OnInit {
     valuations;
-    constructor(private apiService: ApiService) {
-        this.valuations = {};
+    constructor(private apiService: ApiService,
+        private dcfService: DcfService) {
+            this.valuations = {};
     }
 
     ngOnInit() {
@@ -19,5 +21,7 @@ export class ValuationsComponent implements OnInit {
                 this.valuations = data;
             });
     }
-
+    calculateDcf() {
+        this.valuations = this.dcfService.calculateDcf(this.valuations);
+    }
 }

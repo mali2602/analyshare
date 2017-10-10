@@ -8,23 +8,48 @@
             </div>
             <div class="row">
                 <div class="col-md-3">Discount Rate</div>
-                <div class="col-md-6">{{valuations.discountRate}}</div>
+                <div class="col-md-6">
+                    <inline-editor type="number"
+                        [(ngModel)]="valuations.discountRate"
+                        (onSave)="calculateDcf($event)"
+                        name="discountRate"></inline-editor>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">Terminal Growth rate</div>
-                <div class="col-md-6">{{valuations.terminalGrowthRate}}</div>
+                <div class="col-md-6">
+                    <inline-editor type="number"
+                        [(ngModel)]="valuations.terminalGrowthRate"
+                        (onSave)="calculateDcf($event)"
+                        name="terminalGrowthRate"></inline-editor>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">FCF for next 1 - 5 years</div>
-                <div class="col-md-6">{{valuations.maxGrowthRate}}</div>
+                <div class="col-md-6">
+                    <inline-editor type="number"
+                        [(ngModel)]="valuations.maxGrowthRate"
+                        (onSave)="calculateDcf($event)"
+                        name="maxGrowthRate"></inline-editor>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">FCF for next 5 - 10 years</div>
-                <div class="col-md-6">{{valuations.minGrowthRate}}</div>
+                <div class="col-md-6">
+                    <inline-editor type="number"
+                        [(ngModel)]="valuations.minGrowthRate"
+                        (onSave)="calculateDcf($event)"
+                        name="minGrowthRate"></inline-editor>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">Shares outstanding</div>
-                <div class="col-md-6">{{valuations.noOfShares}}</div>
+                <div class="col-md-6">
+                    <inline-editor type="number"
+                        [(ngModel)]="valuations.noOfShares"
+                        (onSave)="calculateDcf($event)"
+                        name="noOfShares"></inline-editor>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3">Outstanding Debt</div>

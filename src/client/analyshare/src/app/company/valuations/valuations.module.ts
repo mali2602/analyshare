@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {InlineEditorModule} from '@qontu/ngx-inline-editor';
 
 import { ValuationsComponent } from './valuations.component';
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        FormsModule,
+        InlineEditorModule
     ],
     declarations: [
         ValuationsComponent

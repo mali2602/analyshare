@@ -52,7 +52,8 @@ const calculateDcf = (data) => {
     const lastFcf = fcfs[fcfs.length - 1];
     const terminalYear = lastFcf.fcf * (1 + options.terminalGrowthRate);
     const totalPV = fcfs.reduce((acc, fcf) => acc + fcf.pv, 0);
-    const terminalValue = (terminalYear / (options.discountRate - options.terminalGrowthRate)) / Math.pow (1 + options.discountRate, options.minGrowthRate);
+    const terminalValue = (terminalYear / (options.discountRate - options.terminalGrowthRate)) /
+        Math.pow (1 + options.discountRate, 10);
     const totalCF = totalPV + terminalValue;
     const dcfValue = (totalCF - options.netDebt) / (options.noOfShares / 10000000);
     return Object.assign({}, options, {
