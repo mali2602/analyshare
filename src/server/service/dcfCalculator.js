@@ -13,28 +13,28 @@ const getGrowthRates = (data) => {
     growthRates.first = growthRates.first || 15;
     growthRates.second = growthRates.second || 12;
     return {
-        min: Math.min(growthRates.first, growthRates.second),
-        max: Math.max(growthRates.first, growthRates.second)
+        maxGrowthRate: Math.max(growthRates.first, growthRates.second),
+        minGrowthRate: Math.min(growthRates.first, growthRates.second)
     };
 };
 
 const getOptions = (data) => {
-    return {
+    return Object.assign( {}, getGrowthRates(data), {
         avgDcf: getAverageDcf(data),
-        growthRates: getGrowthRates(data),
         discountRate: 15 / 100,
         terminalGrowthRate: 2 / 100,
-        netDebt: propertyAccessor.getNetDebt(data)
-    }
+        netDebt: propertyAccessor.getNetDebt(data),
+        noOfShares: propertyAccessor.getNoOfShares(data)
+    });
 };
 
 const calculateFutureCashflows = (options) => {
     let fcfs = [];
     let prevFcf = options.avgDcf;
     for (let i=0; i < 10; i++){
-        const growthRate = (i < 5 ? options.growthRates.max : options.growthRates.min)/100;
+        const growthRate = (i < 5 ? options.maxGrowthRate : options.minGrowthRate)/100;
         const fcf = prevFcf * (1 + growthRate);
-        const pv = fcf * (1 % Math.pow(1 + options.discountRate,  i + 1));
+        const pv = fcf / Math.pow(1 + options.discountRate,  i + 1);
         const obj = {
             growthRate,
             fcf,
@@ -52,17 +52,15 @@ const calculateDcf = (data) => {
     const lastFcf = fcfs[fcfs.length - 1];
     const terminalYear = lastFcf.fcf * (1 + options.terminalGrowthRate);
     const totalPV = fcfs.reduce((acc, fcf) => acc + fcf.pv, 0);
-    const terminalValue = (terminalYear / (options.discountRate - options.terminalGrowthRate)) / Math.pow (1 + options.discountRate, options.growthRates.min);
+    const terminalValue = (terminalYear / (options.discountRate - options.terminalGrowthRate)) / Math.pow (1 + options.discountRate, options.minGrowthRate);
     const totalCF = totalPV + terminalValue;
-    const noOfShares = propertyAccessor.getNoOfShares(data);
-    const dcfValue = (totalCF - options.netDebt) / (noOfShares / 10000000);
+    const dcfValue = (totalCF - options.netDebt) / (options.noOfShares / 10000000);
     return Object.assign({}, options, {
         fcfs,
         terminalYear,
         totalPV,
         terminalValue,
         totalCF,
-        noOfShares,
         dcfValue
     });
 };

@@ -10,9 +10,7 @@ import { ApiService } from '../../shared/api.service';
 export class ValuationsComponent implements OnInit {
     valuations;
     constructor(private apiService: ApiService) {
-        this.valuations = {
-            growthRates: {}
-        };
+        this.valuations = {};
     }
 
     ngOnInit() {
